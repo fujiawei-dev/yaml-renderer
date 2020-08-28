@@ -30,10 +30,13 @@ class RanderYAML(object):
     def render_path(self, obj: dict):
         for key in ("ref", "response"):
             val = obj.get(key, False)
-            if val and isinstance(val, dict):
+            if isinstance(val, dict):
                 rs = self.random_string(8)
                 self.render_definition(obj[key], rs)
                 obj[key] = "#/definitions/" + rs
+            elif isinstance(val, list):
+                # JSON 数据不可能是个裸列表
+                pass
         self.paths.append(render_path(obj))
 
     def render_definition(self, obj: dict, obj_n: str):

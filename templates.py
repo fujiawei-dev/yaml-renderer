@@ -45,15 +45,16 @@ path_tmpl = '''
         - "application/json"
       produces:
         - "application/json"
-      parameters:
         {%- if method=="post" or  method=="put"%}
+      parameters:
         - in: "body"
           name: "{{name}}"
           description: "{{description}}"
           required: {{required}}
           schema:
             $ref: "{{ref}}"
-        {%- elif method=="get" or method=="delete" %}
+        {%- elif params and method=="get" or method=="delete" %}
+      parameters:
         {%- for key, val in params.items() %}
         - name: "{{key}}"
           in: "query"
